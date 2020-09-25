@@ -786,19 +786,19 @@ public class AssociationRestaurant {
         String message = "";
         Product objsearch1 = searchProductInOrder(codeProduct, codeOrder);
         if (objsearch1 != null) {
-            objsearch1.setAmountOrdered(objsearch1.getAmountOrdered() + amountOrdered);
-            message = "\nThe client is now ordering " + objsearch1.getAmountOrdered()
-                    + " units of the product with code " + codeProduct;
+            Product copyProduct = objsearch1;
+            copyProduct.setAmountOrdered(copyProduct.getAmountOrdered() + amountOrdered);
+            message = "\nThe client is now ordering " + copyProduct.getAmountOrdered() + " units of the product with code " + codeProduct;
         } else {
             Product objsearch2 = searchProductWithCodeAndNit(codeProduct, searchNit);
             if (objsearch2 != null) {
                 for (int i = 0; i < orders.size(); i++) {
                     if (orders.get(i) != null) {
                         if (orders.get(i).getCodeOrder() == codeOrder) {
-                            orders.get(i).getProducts().add(objsearch2);
-                            objsearch2.setAmountOrdered(objsearch2.getAmountOrdered() + amountOrdered);
-                            message = "\nThe product with code " + codeProduct
-                                    + " has been added to the products list from the order with code " + codeOrder;
+                            Product copyProduct = objsearch2;
+                            orders.get(i).getProducts().add(copyProduct);
+                            copyProduct.setAmountOrdered(copyProduct.getAmountOrdered() + amountOrdered);
+                            message = "\nThe product with code " + codeProduct + " has been added to the products list from the order with code " + codeOrder;
                         }
                     }
                 }
@@ -870,8 +870,9 @@ public class AssociationRestaurant {
                                             done = true;
                                         }
                                         else {
-                                            objsearch.setAmountOrdered(objsearch.getAmountOrdered() - amountToRemove);
-                                            message = "\nThe client is now ordering " + objsearch.getAmountOrdered() + " units of the product with code " + codeProduct + ", from the order " + codeOrder;
+                                            Product copy = objsearch; 
+                                            copy.setAmountOrdered(copy.getAmountOrdered() - amountToRemove);
+                                            message = "\nThe client is now ordering " + copy.getAmountOrdered() + " units of the product with code " + codeProduct + ", from the order " + codeOrder;
                                             done = true;
                                         }
                                     }

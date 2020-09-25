@@ -557,6 +557,7 @@ public class Menu {
         if (ar.getRestaurants().isEmpty())
             System.out.println("\nThere are no restaurants registered in the system to set the information from one of them.");
         else {
+            showRestaurantsByName();
             System.out.print("Enter the restaurant's NIT: ");
             String nitRestaurant = scanner.nextLine();
             Restaurant objSearch = ar.searchRestaurant(nitRestaurant);
@@ -604,6 +605,7 @@ public class Menu {
         if (ar.getRestaurants().isEmpty())
             System.out.println("There are no restaurants registered in the system to set the product data from one of them.");
         else {
+            showProducts();
             System.out.print("Enter the product code: ");
             String codeProduct = scanner.nextLine();
             Product objSearch = ar.searchProductOnlyWithCode(codeProduct);
@@ -664,13 +666,7 @@ public class Menu {
         if (ar.getClients().isEmpty())
             System.out.println("\nThere are no clients registered in the system to set the information from one of them.\n");
         else {
-            int x = 1;
-            System.out.print("\nThese are the clients registered in the system:\n\n");
-            System.out.print("Last name" + SEPARATOR + "Name" + SEPARATOR + "Document type" + SEPARATOR + "ID number" + SEPARATOR + "Phone number" + SEPARATOR + "Address\n\n");
-            for (Client cl : ar.getClients()) {
-                System.out.println("Client " + x + ":\n" + cl.toString() + "\n\n");
-                x++;
-            }
+            showClientsByLastNameAndName();
             System.out.print("Enter the client's ID: ");
             String idClient = scanner.nextLine();
             Client objSearch = ar.searchClient(idClient);
@@ -751,14 +747,7 @@ public class Menu {
         if (ar.getOrders().isEmpty())
             System.out.println("\nThere are no orders registered in the system to set the information from one of them.\n");
         else {
-            int a = 1;
-            for (int i = 0; i < ar.getOrders().size(); i++) {
-                if (ar.getOrders().get(i) != null) {
-                    System.out.println("\nOrder " + a + ":\nOrder code" + SEPARATOR + "Order date and time" + SEPARATOR + "Client ID number" + SEPARATOR + "Restaurant NIT" + SEPARATOR + "Order status\n" + ar.getOrders().get(i).toString() + "\n\n");
-                    a++;
-                    System.out.println();
-                }
-            }
+            showOrders();
             System.out.print("Enter the order's code: ");
             int codeOrder = Integer.parseInt(scanner.nextLine());
             System.out.print("Enter the NIT of the chosen restaurant in the order: ");
