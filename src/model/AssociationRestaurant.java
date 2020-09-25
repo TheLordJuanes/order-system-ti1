@@ -968,6 +968,7 @@ public class AssociationRestaurant {
                 // codeOrder 0; dateTime 1; status 2; nameRestaurant 3; nitRestaurant 4; nameCeo 5; operator 6; typeDocument 7; idClient 8; lastNameClient 9; nameClient 10; phone 11; address 12; codeProduct 13; nameProduct 14; description 15; cost 16; content 17; amountOrdered 18;
                 parts = line.split(SEPARATOR);
                 if (comparatorOrders.equals(parts[0])) {
+                    int productsForSameOrderInFile = orderRepeatedInFile(parts[0], fileName);
                     int codeOrder = Integer.parseInt(parts[0]);
                     SimpleDateFormat format = new SimpleDateFormat();
                     Date dateTime = format.parse(parts[1]);
@@ -985,11 +986,16 @@ public class AssociationRestaurant {
                             addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
                             Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
                             productsOrdered.add(obj);
+                            if (productsOrdered.size() == productsForSameOrderInFile) {
+                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                            }
                             line = br.readLine();
                         } else {
                             Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
                             productsOrdered.add(obj);
-                            addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                            if (productsOrdered.size() == productsForSameOrderInFile) {
+                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                            }
                             line = br.readLine();
                         }
                     } else {
@@ -1001,12 +1007,16 @@ public class AssociationRestaurant {
                                 addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
                                 Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
                                 productsOrdered.add(obj);
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                if (productsOrdered.size() == productsForSameOrderInFile) {
+                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                }
                                 line = br.readLine();
                             } else {
                                 Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
                                 productsOrdered.add(obj);
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                if (productsOrdered.size() == productsForSameOrderInFile) {
+                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                }
                                 line = br.readLine();
                             }
                         } else {
@@ -1018,34 +1028,62 @@ public class AssociationRestaurant {
                                 addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
                                 Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
                                 productsOrdered.add(obj);
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                if (productsOrdered.size() == productsForSameOrderInFile) {
+                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                }
                                 line = br.readLine();
                             } else {
                                 Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
                                 productsOrdered.add(obj);
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                if (productsOrdered.size() == productsForSameOrderInFile) {
+                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                                }
                                 line = br.readLine();
                             }
                         }
                     }
-                } else {
+                } else
                     comparatorOrders = parts[0];
-                }
             }
             br.close();
         }
         return message;
     }
 
+    public int orderRepeatedInFile(String codeOrder, String fileName) throws IOException {
+        int productsForSameOrderInFile = 0;
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        String line = br.readLine();
+        while (line != null) {
+            String[] parts = line.split(SEPARATOR);
+            if (parts[0].equals(codeOrder)){
+                productsForSameOrderInFile++;
+            }
+            line = br.readLine();
+        }
+        br.close();
+        return productsForSameOrderInFile;
+    }
+
     /**
-     * Name: exportData
-     * Method used to export the orders data registered in the system, besides all the correspondent data from the restaurant, the client and the products involved in the order. <br>
-     * <b>pre: </b> List of orders already initialized with at least one product added to the list of products from the order; list of restaurants already initialized with at least one restaurant registered; list of products already initialized with at least one product registered; list of clients already initialized with at least one client registered. <br>
-     * <b>post: </b> Exporting process determined of the registered orders in the list of orders from the system. <br>
-     * @param fileName - File name where the data in question will be written - fileName = String, fileName != null, fileName != ""
-     * @param separator - Separator used between the attributes in the file - separator = String, separator != null, separator != ""
-     * @throws FileNotFoundException - when a file with the specified pathname doesn't exist.
-    */
+     * Name: exportData Method used to export the orders data registered in the
+     * system, besides all the correspondent data from the restaurant, the client
+     * and the products involved in the order. <br>
+     * <b>pre: </b> List of orders already initialized with at least one product
+     * added to the list of products from the order; list of restaurants already
+     * initialized with at least one restaurant registered; list of products already
+     * initialized with at least one product registered; list of clients already
+     * initialized with at least one client registered. <br>
+     * <b>post: </b> Exporting process determined of the registered orders in the
+     * list of orders from the system. <br>
+     * 
+     * @param fileName  - File name where the data in question will be written -
+     *                  fileName = String, fileName != null, fileName != ""
+     * @param separator - Separator used between the attributes in the file -
+     *                  separator = String, separator != null, separator != ""
+     * @throws FileNotFoundException - when a file with the specified pathname
+     *                               doesn't exist.
+     */
     public void exportData(String fileName, String separator) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(fileName);
         Collections.sort(orders);
