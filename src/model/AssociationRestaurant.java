@@ -984,20 +984,13 @@ public class AssociationRestaurant {
                         if (objsearch2 == null) {
                             message = "The client with ID " + parts[8] + " wasn't already registered in the system, so it will be registered now.";
                             addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
-                            Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                            productsOrdered.add(obj);
-                            if (productsOrdered.size() == productsForSameOrderInFile) {
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                            }
-                            line = br.readLine();
-                        } else {
-                            Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                            productsOrdered.add(obj);
-                            if (productsOrdered.size() == productsForSameOrderInFile) {
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                            }
-                            line = br.readLine();
                         }
+                        Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
+                        productsOrdered.add(obj);
+                        if (productsOrdered.size() == productsForSameOrderInFile) {
+                            addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                        }
+                        line = br.readLine();
                     } else {
                         Product objSearch3 = searchProductWithCodeAndNit(parts[13], parts[4]);
                         if (objSearch3 != null) {
@@ -1005,20 +998,13 @@ public class AssociationRestaurant {
                             if (objsearch2 == null) {
                                 message = "The client with ID " + parts[8] + " wasn't already registered in the system, so it will be registered now.";
                                 addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
-                                Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                                productsOrdered.add(obj);
-                                if (productsOrdered.size() == productsForSameOrderInFile) {
-                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                                }
-                                line = br.readLine();
-                            } else {
-                                Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                                productsOrdered.add(obj);
-                                if (productsOrdered.size() == productsForSameOrderInFile) {
-                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                                }
-                                line = br.readLine();
                             }
+                            Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
+                            productsOrdered.add(obj);
+                            if (productsOrdered.size() == productsForSameOrderInFile) {
+                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                            }
+                            line = br.readLine();
                         } else {
                             message = "\nThe product with code " + parts[13] + " wasn't registered in the system for the restaurant with NIT " + parts[4] + ", so it will be registered now.";
                             addProduct(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
@@ -1026,20 +1012,13 @@ public class AssociationRestaurant {
                             if (objsearch2 == null) {
                                 message = "The client with ID " + parts[8] + " wasn't already registered in the system, so it will be registered now.";
                                 addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
-                                Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                                productsOrdered.add(obj);
-                                if (productsOrdered.size() == productsForSameOrderInFile) {
-                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                                }
-                                line = br.readLine();
-                            } else {
-                                Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                                productsOrdered.add(obj);
-                                if (productsOrdered.size() == productsForSameOrderInFile) {
-                                    addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                                }
-                                line = br.readLine();
                             }
+                            Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
+                            productsOrdered.add(obj);
+                            if (productsOrdered.size() == productsForSameOrderInFile) {
+                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                            }
+                            line = br.readLine();
                         }
                     }
                 } else
