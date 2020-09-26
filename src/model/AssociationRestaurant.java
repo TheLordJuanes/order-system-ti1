@@ -942,20 +942,15 @@ public class AssociationRestaurant {
                 double content = Double.parseDouble(parts[5]);
                 int amountOrdered = Integer.parseInt(parts[6]);
                 Restaurant objsearch1 = searchRestaurant(parts[4]);
-                if (objsearch1 == null) {
+                if (objsearch1 == null)
                     addRestaurant(parts[7], parts[4], parts[8], parts[9]);
-                    addProduct(parts[0], parts[1], parts[2], cost, parts[4], content, amountOrdered);
-                    line = br.readLine();
-                } else {
+                else {
                     Product objSearch2 = searchProductWithCodeAndNit(parts[0], parts[4]);
                     if (objSearch2 != null)
-                        message = "\nThe product with code " + parts[0]
-                                + " already exists in the system for the restaurant with NIT " + parts[4];
-                    else {
-                        addProduct(parts[0], parts[1], parts[2], cost, parts[4], content, amountOrdered);
-                        line = br.readLine();
-                    }
+                        message = "\nThe product with code " + parts[0] + " already exists in the system for the restaurant with NIT " + parts[4];
                 }
+                addProduct(parts[0], parts[1], parts[2], cost, parts[4], content, amountOrdered);
+                line = br.readLine();
             }
             br.close();
         } else if (data == 4) {
@@ -980,47 +975,24 @@ public class AssociationRestaurant {
                         message = "\nThe restaurant with NIT " + parts[4] + " wasn't registered in the system, so it will be registered now.\n";
                         addRestaurant(parts[3], parts[4], parts[5], parts[6]);
                         addProduct(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                        Client objsearch2 = searchClient(parts[8]);
-                        if (objsearch2 == null) {
-                            message = "The client with ID " + parts[8] + " wasn't already registered in the system, so it will be registered now.";
-                            addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
-                        }
-                        Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                        productsOrdered.add(obj);
-                        if (productsOrdered.size() == productsForSameOrderInFile) {
-                            addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                        }
-                        line = br.readLine();
                     } else {
                         Product objSearch3 = searchProductWithCodeAndNit(parts[13], parts[4]);
-                        if (objSearch3 != null) {
-                            Client objsearch2 = searchClient(parts[8]);
-                            if (objsearch2 == null) {
-                                message = "The client with ID " + parts[8] + " wasn't already registered in the system, so it will be registered now.";
-                                addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
-                            }
-                            Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                            productsOrdered.add(obj);
-                            if (productsOrdered.size() == productsForSameOrderInFile) {
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                            }
-                            line = br.readLine();
-                        } else {
+                        if (objSearch3 == null) {
                             message = "\nThe product with code " + parts[13] + " wasn't registered in the system for the restaurant with NIT " + parts[4] + ", so it will be registered now.";
                             addProduct(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                            Client objsearch2 = searchClient(parts[8]);
-                            if (objsearch2 == null) {
-                                message = "The client with ID " + parts[8] + " wasn't already registered in the system, so it will be registered now.";
-                                addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
-                            }
-                            Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
-                            productsOrdered.add(obj);
-                            if (productsOrdered.size() == productsForSameOrderInFile) {
-                                addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
-                            }
-                            line = br.readLine();
                         }
                     }
+                    Client objsearch2 = searchClient(parts[8]);
+                    if (objsearch2 == null) {
+                        message = "The client with ID " + parts[8] + " wasn't already registered in the system, so it will be registered now.";
+                        addClient(parts[7], parts[8], parts[9], parts[10], parts[11], parts[12]);
+                    }
+                    Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
+                    productsOrdered.add(obj);
+                    if (productsOrdered.size() == productsForSameOrderInFile) {
+                        addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                    }
+                    line = br.readLine();
                 } else
                     comparatorOrders = parts[0];
             }
