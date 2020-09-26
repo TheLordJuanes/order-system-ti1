@@ -14,6 +14,7 @@ public class Main {
     /**
      * Name: main
      * Main method. <br>
+     * @param args - Arguments
     */
     public static void main(String[] args) {
         Menu menu = new Menu();

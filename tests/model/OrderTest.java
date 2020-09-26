@@ -10,6 +10,9 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,9 +38,10 @@ class OrderTest {
 	@Test
 	public void testOrder() {
 		setupScenario1();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Product obj = new Product("576438211-66", "Kilko", "Nice taste", 9009, nitRestaurant, 4433, 0);
 		products.add(obj);
-		order = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, products);
+		order = new Order(codeOrder, df.format(dateTime), idClient, nitRestaurant, status, products);
 		assertEquals(codeOrder, order.getCodeOrder(), "Document type of the client not created correctly.");
 		assertEquals(dateTime, order.getDateTime(), "Client ID number not created correctly.");
 		assertEquals(idClient, order.getIdClient(), "Client last name not created correctly.");
@@ -53,9 +57,10 @@ class OrderTest {
 		// Expected comparation result: greater than it:
 
 		setupScenario1();
+		DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Product obj1 = new Product("576438211-66", "Kilko", "Nice taste", 9009, nitRestaurant, 4433, 0);
 		products.add(obj1);
-		Order order1 = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, products);
+		Order order1 = new Order(codeOrder, df1.format(dateTime), idClient, nitRestaurant, status, products);
 		String exampleCurrentNit1 = "43871892";
 		assertTrue(exampleCurrentNit1.compareTo(order1.getNitRestaurant()) > 0, "Lexicographically, the current attribute isn't greater than the one passed as parameter.");
 		assertFalse(exampleCurrentNit1.compareTo(order1.getNitRestaurant()) < 0, "Lexicographically, the current attribute is less than the one passed as parameter.");
@@ -66,9 +71,10 @@ class OrderTest {
 		// Expected comparation result: less than it:
 
 		setupScenario1();
+		DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Product obj2 = new Product("576438211-66", "Kilko", "Nice taste", 9009, nitRestaurant, 4433, 0);
 		products.add(obj2);
-		Order order2 = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, products);
+		Order order2 = new Order(codeOrder, df2.format(dateTime), idClient, nitRestaurant, status, products);
 		String exampleCurrentNit2 = "13765489";
 		assertTrue(exampleCurrentNit2.compareTo(order2.getNitRestaurant()) < 0, "Lexicographically, the current attribute isn't less than the one passed as parameter.");
 		assertFalse(exampleCurrentNit2.compareTo(order2.getNitRestaurant()) > 0, "Lexicographically, the current attribute is greater than the one passed as parameter.");
@@ -79,9 +85,10 @@ class OrderTest {
 		// Expected comparation result: equal:
 
 		setupScenario1();
+		DateFormat df3 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Product obj3 = new Product("576438211-66", "Kilko", "Nice taste", 9009, nitRestaurant, 4433, 0);
 		products.add(obj3);
-		Order order3 = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, products);
+		Order order3 = new Order(codeOrder, df3.format(dateTime), idClient, nitRestaurant, status, products);
 		String exampleCurrentNit3 = "19191928";
 		assertTrue(exampleCurrentNit3.compareTo(order3.getNitRestaurant()) == 0, "Lexicographically, the current attribute isn't equal to the one passed as parameter.");
 		assertFalse(exampleCurrentNit3.compareTo(order3.getNitRestaurant()) > 0, "Lexicographically, the current attribute is greater than the one passed as parameter.");
@@ -94,9 +101,10 @@ class OrderTest {
 		// Expected comparation result: greater than it:
 
 		setupScenario1();
+		DateFormat df4 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Product obj4 = new Product("576438211-66", "Kilko", "Nice taste", 9009, nitRestaurant, 4433, 0);
 		products.add(obj4);
-		Order order4 = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, products);
+		Order order4 = new Order(codeOrder, df4.format(dateTime), idClient, nitRestaurant, status, products);
 		String exampleCurrentNit4 = "13765489";
 		assertTrue(order4.getNitRestaurant().compareTo(exampleCurrentNit4) > 0, "Lexicographically, the attribute passed as parameter isn't greater than the current one.");
 		assertFalse(order4.getNitRestaurant().compareTo(exampleCurrentNit4) < 0, "Lexicographically, the attribute passed as parameter is less than the current one.");
@@ -107,9 +115,10 @@ class OrderTest {
 		// Expected comparation result: less than it:
 
 		setupScenario1();
+		DateFormat df5 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Product obj5 = new Product("576438211-66", "Kilko", "Nice taste", 9009, nitRestaurant, 4433, 0);
 		products.add(obj5);
-		Order order5 = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, products);
+		Order order5 = new Order(codeOrder, df5.format(dateTime), idClient, nitRestaurant, status, products);
 		String exampleCurrentNit5 = "43871892";
 		assertTrue(order5.getNitRestaurant().compareTo(exampleCurrentNit5) < 0, "Lexicographically, the attribute passed as parameter isn't less than the current one.");
 		assertFalse(order5.getNitRestaurant().compareTo(exampleCurrentNit5) > 0, "Lexicographically, the attribute passed as parameter is greater than the current one.");
@@ -120,9 +129,10 @@ class OrderTest {
 		// Expected comparation result: equal:
 
 		setupScenario1();
+		DateFormat df6 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		Product obj6 = new Product("576438211-66", "Kilko", "Nice taste", 9009, nitRestaurant, 4433, 0);
 		products.add(obj6);
-		Order order6 = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, products);
+		Order order6 = new Order(codeOrder, df6.format(dateTime), idClient, nitRestaurant, status, products);
 		String exampleCurrentNit6 = "19191928";
 		assertTrue(order6.getNitRestaurant().compareTo(exampleCurrentNit6) == 0, "Lexicographically, the attribute passed as parameter isn't equal to the current one.");
 		assertFalse(order6.getNitRestaurant().compareTo(exampleCurrentNit6) > 0, "Lexicographically, the attribute passed as parameter is greater than the current one.");

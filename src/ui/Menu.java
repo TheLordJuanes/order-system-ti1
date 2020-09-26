@@ -27,7 +27,7 @@ public class Menu {
     // Constants
     // -----------------------------------------------------------------
 
-    public final static String SEPARATOR = " ; ";
+    public final static String SEPARATOR = ",";
 
     // -----------------------------------------------------------------
     // Attributes
@@ -164,7 +164,7 @@ public class Menu {
             try {
                 String message = ar.importData(fileName, data);
                 System.out.println(message);
-                System.out.println("\nThe (rest of the) data from restaurants was succesfully imported.\n");
+                System.out.println("\nData from restaurants succesfully imported.\n");
             } catch (IOException ioe) {
                 System.out.println("\nThe data can't be imported.\n");
                 ioe.printStackTrace();
@@ -175,7 +175,7 @@ public class Menu {
             try {
                 String message = ar.importData(fileName, data);
                 System.out.println(message);
-                System.out.println("\nThe (rest of the) data from clients was succesfully imported.\n");
+                System.out.println("\nData from clients succesfully imported.\n");
             } catch (IOException ioe) {
                 System.out.println("\nThe data can't be imported.\n");
                 ioe.printStackTrace();
@@ -186,7 +186,7 @@ public class Menu {
             try {
                 String message = ar.importData(fileName, data);
                 System.out.println(message);
-                System.out.println("\nThe (rest of the) data from products was succesfully imported.\n");
+                System.out.println("\nData from products succesfully imported.\n");
             } catch (IOException ioe) {
                 System.out.println("\nThe data can't be imported.\n");
                 ioe.printStackTrace();
@@ -197,7 +197,7 @@ public class Menu {
             try {
                 String message = ar.importData(fileName, data);
                 System.out.println(message);
-                System.out.println("\nThe (rest of the) data from orders was succesfully imported.\n");
+                System.out.println("\nData from orders succesfully imported.\n");
             } catch (IOException ioe) {
                 System.out.println("\nThe data can't be imported.\n");
                 ioe.printStackTrace();
@@ -327,7 +327,7 @@ public class Menu {
             int x = 1;
             System.out.print("\nThese are the products registered in the system:\n\n");
             for (Product prod : ar.getProducts()) {
-                System.out.println("Product " + x + ":\nProduct code" + SEPARATOR + "Product name" + SEPARATOR + "Product cost" + SEPARATOR + "Product description" + SEPARATOR + "Product content" + SEPARATOR + "Restaurant owner NIT\n" + prod.toString() + "\n\n");
+                System.out.println("Product " + x + ":\nProduct code" + SEPARATOR + "Product name" + SEPARATOR + "Product cost" + SEPARATOR + "Product description" + SEPARATOR + "Product content" + SEPARATOR + "Restaurant owner NIT" + SEPARATOR + "Ordered amount\n" + prod.toString() + "\n\n");
                 x++;
             }
         }
@@ -378,7 +378,7 @@ public class Menu {
     */
     public void showClientsByLastNameAndName() {
         if (ar.getClients().isEmpty())
-            System.out.println("There are no clients registered in the system to show their data.");
+            System.out.println("\nThere are no clients registered in the system to show their data.");
         else {
             int x = 1;
             System.out.print("\nThese are the clients registered in the system:\n\n");
@@ -395,7 +395,7 @@ public class Menu {
     */
     public void showClientsByPhone() {
         if (ar.getClients().isEmpty())
-            System.out.println("There are no clients registered in the system to show their data.");
+            System.out.println("\nThere are no clients registered in the system to show their data.");
         else {
             List<Client> clients2 = new ArrayList<Client>(ar.getClients());
             // Selection descending sort:

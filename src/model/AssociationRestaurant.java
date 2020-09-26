@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class AssociationRestaurant {
     public final static String SAVE_PRODUCTS_PATH_FILE = "data/products.ap2";
     public final static String SAVE_CLIENTS_PATH_FILE = "data/clients.ap2";
     public final static String SAVE_ORDERS_PATH_FILE = "data/orders.ap2";
-    public final static String SEPARATOR = " ; ";
+    public final static String SEPARATOR = ",";
 
     // -----------------------------------------------------------------
     // Attributes
@@ -64,6 +65,8 @@ public class AssociationRestaurant {
 	 * Name: AssociationRestaurant
 	 * Constructor method of a restaurant association. <br>
 	 * @param nameAssociation - name of the restaurant association - nameAssociation = String, nameAssociation != null, nameAssociation != ""
+	 * @throws ClassNotFoundException - if the program tries to load in a class through its String name but no definition for the class with the specified name could be found.
+	 * @throws IOException - if it cannot read the file properly while loading.
 	*/
     public AssociationRestaurant(String nameAssociation) throws ClassNotFoundException, IOException {
         this.nameAssociation = nameAssociation;
@@ -240,6 +243,7 @@ public class AssociationRestaurant {
      * @param nitRestaurant - NIT of the restaurant product owner - nitRestaurant = String, nitRestaurant != null, nitRestaurant != ""
      * @param content - Product content - content = double, content != null, content != 0
      * @param amountOrdered - Ordered units of the product when an order is going to be placed - amountOrdered = int, amountOrdered != null
+     * @throws IOException - if it cannot write the file properly while saving.
      * @return A String with a message about the successful adding process of the product to the list of products of the system; or, a String with a message about an error because the product already exists in the system; or, a String with a message about an error because the restaurant doesn't exist in the system.
     */
     public String addProductForTest(String codeProduct, String nameProduct, String description, double cost, String nitRestaurant, double content, int amountOrdered) throws IOException {
@@ -440,19 +444,45 @@ public class AssociationRestaurant {
      * @param idClient - Client ID number - idClient = String, idClient != null, idClient != ""
      * @param nitRestaurant - Restaurant NIT - nitRestaurant = String, nitRestaurant != null, nitRestaurant != ""
      * @param status - Order status - status = String, status != null, status != ""
-     * @param productsOrdered - List of products from the order - productsOrdered = List<Product>, productsOrdered != null
+     * @param productsOrdered - List of products from the order - productsOrdered = List of Product class, productsOrdered != null
      * @throws IOException - if it cannot write the file properly while saving after adding an order.
      * @return A String with a message about the successful adding process of the order to the list of orders of the system; or, a String with a message about an error because the order already exists in the system.
     */
     public String addOrder(int codeOrder, Date dateTime, String idClient, String nitRestaurant, String status, List<Product> productsOrdered) throws IOException {
         String message = "";
-        Order obj = new Order(codeOrder, dateTime, idClient, nitRestaurant, status, productsOrdered);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        df.format(dateTime);
+        Order obj = new Order(codeOrder, df.format(dateTime), idClient, nitRestaurant, status, productsOrdered);
         orders.add(obj);
         message = "\nSaving data...\n\nOrder successfully registered.\n";
         saveDataOrders();
         return message;
     }
 
+    /**
+     * Name: addOrderImporting
+     * Method used to register an order in the list of orders of the system, when importing it. <br>
+     * <b>pre: </b> List of orders already initialized; list of restaurants already initialized with at least one restaurant registered; list of products already initialized with at least one product registered; list of clients already initialized with at least one client registered. <br>
+     * <b>post: </b> Registry process determined of the order in question in the list of orders of the system. <br>
+     * @param codeOrder - Order code - codeOrder = int, codeOrder != null, codeOrder != 0
+     * @param dateTime - Date and time of order creation - dateTime = Date, dateTime != null
+     * @param idClient - Client ID number - idClient = String, idClient != null, idClient != ""
+     * @param nitRestaurant - Restaurant NIT - nitRestaurant = String, nitRestaurant != null, nitRestaurant != ""
+     * @param status - Order status - status = String, status != null, status != ""
+     * @param productsOrdered - List of products from the order - productsOrdered = List of Product class, productsOrdered != null
+     * @throws IOException - if it cannot write the file properly while saving after adding an order.
+     * @return A String with a message about the successful adding process of the order to the list of orders of the system; or, a String with a message about an error because the order already exists in the system.
+    */
+    public String addOrderImporting(int codeOrder, Date dateTime, String idClient, String nitRestaurant, String status, List<Product> productsOrdered) throws IOException {
+        String message = "";
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        df.format(dateTime);
+        Order obj = new Order(codeOrder, df.format(dateTime), idClient, nitRestaurant, status, productsOrdered);
+        orders.add(obj);
+        message = "\nSaving data...\n\nOrder successfully registered.\n";
+        saveDataOrders();
+        return message;
+    }
     
     /**
      * Name: searchOrder
@@ -902,6 +932,7 @@ public class AssociationRestaurant {
      * @param data - Variable to specify what is it going to be imported - data = int, data != null, data is a number from 1 to 4.
      * @throws IOException - if it cannot write a file properly while saving after importing and then adding a restaurant, a product, a client or an order.
      * @throws ParseException - signals that an error has been reached unexpectedly while parsing.
+     * @return Eventually a message if an object from Restaurant, Product or Client class didn't exist while it was trying to import.
     */
     public String importData(String fileName, int data) throws IOException, ParseException {
         String message = "";
@@ -965,8 +996,8 @@ public class AssociationRestaurant {
                 if (comparatorOrders.equals(parts[0])) {
                     int productsForSameOrderInFile = orderRepeatedInFile(parts[0], fileName);
                     int codeOrder = Integer.parseInt(parts[0]);
-                    SimpleDateFormat format = new SimpleDateFormat();
-                    Date dateTime = format.parse(parts[1]);
+                    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dateTime = df.parse(parts[1]);
                     double cost = Double.parseDouble(parts[16]);
                     double content = Double.parseDouble(parts[17]);
                     int amountOrdered = Integer.parseInt(parts[18]);
@@ -990,7 +1021,7 @@ public class AssociationRestaurant {
                     Product obj = new Product(parts[13], parts[14], parts[15], cost, parts[4], content, amountOrdered);
                     productsOrdered.add(obj);
                     if (productsOrdered.size() == productsForSameOrderInFile) {
-                        addOrder(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
+                        addOrderImporting(codeOrder, dateTime, parts[8], parts[4], parts[2], productsOrdered);
                     }
                     line = br.readLine();
                 } else
@@ -1001,13 +1032,23 @@ public class AssociationRestaurant {
         return message;
     }
 
+    /**
+     * Name: orderRepeatedInFile
+     * Method used to count the number of products from a same order in a csv file when importing it. <br>
+     * <b>pre: </b> The file name exists. <br>
+     * <b>post: </b> Number of products from a same order in a csv file determined. <br>
+     * @param codeOrder - Order code - codeOrder = String, codeOrder != null, codeOrder != ""
+     * @param fileName - File name from the external data in question that will be read - fileName = String, fileName != null, fileName != ""
+     * @throws IOException - if it cannot find the path file name.
+     * @return An int with the number of products from a same order in the csv file.
+    */
     public int orderRepeatedInFile(String codeOrder, String fileName) throws IOException {
         int productsForSameOrderInFile = 0;
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String line = br.readLine();
         while (line != null) {
             String[] parts = line.split(SEPARATOR);
-            if (parts[0].equals(codeOrder)){
+            if (parts[0].equals(codeOrder)) {
                 productsForSameOrderInFile++;
             }
             line = br.readLine();
@@ -1017,23 +1058,13 @@ public class AssociationRestaurant {
     }
 
     /**
-     * Name: exportData Method used to export the orders data registered in the
-     * system, besides all the correspondent data from the restaurant, the client
-     * and the products involved in the order. <br>
-     * <b>pre: </b> List of orders already initialized with at least one product
-     * added to the list of products from the order; list of restaurants already
-     * initialized with at least one restaurant registered; list of products already
-     * initialized with at least one product registered; list of clients already
-     * initialized with at least one client registered. <br>
-     * <b>post: </b> Exporting process determined of the registered orders in the
-     * list of orders from the system. <br>
-     * 
-     * @param fileName  - File name where the data in question will be written -
-     *                  fileName = String, fileName != null, fileName != ""
-     * @param separator - Separator used between the attributes in the file -
-     *                  separator = String, separator != null, separator != ""
-     * @throws FileNotFoundException - when a file with the specified pathname
-     *                               doesn't exist.
+     * Name: exportData
+     * Method used to export the orders data registered in the system, besides all the correspondent data from the restaurant, the client and the products involved in the order. <br>
+     * <b>pre: </b> List of orders already initialized with at least one product added to the list of products from the order; list of restaurants already initialized with at least one restaurant registered; list of products already initialized with at least one product registered; list of clients already initialized with at least one client registered. <br>
+     * <b>post: </b> Exporting process determined of the registered orders in the list of orders from the system. <br>
+     * @param fileName  - File name where the data in question will be written - fileName = String, fileName != null, fileName != ""
+     * @param separator - Separator used between the attributes in the file - separator = String, separator != null, separator != ""
+     * @throws FileNotFoundException - when a file with the specified pathname doesn't exist.
      */
     public void exportData(String fileName, String separator) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(fileName);

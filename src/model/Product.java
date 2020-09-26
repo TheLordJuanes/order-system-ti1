@@ -19,7 +19,7 @@ public class Product implements Serializable {
     // Constants
     // -----------------------------------------------------------------
 
-    public final static String SEPARATOR = " ; ";
+    public final static String SEPARATOR = ",";
 
     // -----------------------------------------------------------------
     // Attributes

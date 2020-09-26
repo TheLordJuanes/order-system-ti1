@@ -10,9 +10,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-
 public class Order implements Serializable, Comparable<Order> {
 
     public enum OrderStatus {
@@ -33,7 +31,7 @@ public class Order implements Serializable, Comparable<Order> {
     // -----------------------------------------------------------------
 
     private int codeOrder;
-    private Date dateTime;
+    private String dateTime;
     private String idClient;
     private String nitRestaurant;
     private String status;
@@ -52,13 +50,13 @@ public class Order implements Serializable, Comparable<Order> {
 	 * Name: Order
 	 * Constructor method of an order. <br>
 	 * @param codeOrder - Order code - codeOrder = int, codeOrder != null, codeOrder != 0
-     * @param dateTime - Date and time of order creation - dateTime = Date, dateTime != null
+     * @param dateTime - Date and time of order creation - dateTime = String, dateTime != null, dateTime != ""
      * @param idClient - Client ID number - idClient = String, idClient != null, idClient != ""
      * @param nitRestaurant - Restaurant NIT - nitRestaurant = String, nitRestaurant != null, nitRestaurant != ""
      * @param status - Order status - status = String, status != null, status != ""
-     * @param productsOrdered - List of products from the order - productsOrdered = List<Product>, productsOrdered != null
+     * @param products - List of products from the order - products = List of Product class, products != null
 	*/
-    public Order(int codeOrder, Date dateTime, String idClient, String nitRestaurant, String status, List<Product> products) {
+    public Order(int codeOrder, String dateTime, String idClient, String nitRestaurant, String status, List<Product> products) {
         this.codeOrder = codeOrder;
         this.dateTime = dateTime;
         this.idClient = idClient;
@@ -75,11 +73,11 @@ public class Order implements Serializable, Comparable<Order> {
         this.codeOrder = codeOrder;
     }
 
-    public Date getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -122,23 +120,23 @@ public class Order implements Serializable, Comparable<Order> {
      * @param order - An Order object - order != null
 	 * @return An int representing the comparsion result, be it positive, negative or equal to 0.
   	*/
-      @Override
-      public int compareTo(Order order) {
-          int result = nitRestaurant.compareTo(order.getNitRestaurant());
-          if (result == 0) {
-              result = order.getIdClient().compareTo(idClient);
-              if (result == 0) {
-                  result = dateTime.compareTo(order.getDateTime());
-                  if (result == 0) {
-                      for (int i = 0; i < products.size(); i++) {
-                          if (products.get(i) != null)
-                              result = products.get(i).getCodeProduct().compareTo(order.getProducts().get(i).getCodeProduct());
-                      }
-                  }
-              }
-          }
-          return result;
-      }
+    @Override
+    public int compareTo(Order order) {
+        int result = nitRestaurant.compareTo(order.getNitRestaurant());
+        if (result == 0) {
+            result = order.getIdClient().compareTo(idClient);
+            if (result == 0) {
+                result = dateTime.compareTo(order.getDateTime());
+                if (result == 0) {
+                    for (int i = 0; i < products.size(); i++) {
+                        if (products.get(i) != null)
+                            result = products.get(i).getCodeProduct().compareTo(order.getProducts().get(i).getCodeProduct());
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
     /** Name: toString
 	 * Method used to print a String that textually represents an object from the Order class with its elements.
